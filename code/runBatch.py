@@ -12,9 +12,12 @@ def signal_handler(sig, frame):
     print('Exiting...')
     sys.exit(0)
 
+@staticmethod
+def run_external():
+    main()
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    APP_CONFIG = os.environ.get('APP_CONFIG', r"C:\Users\dade\Desktop\BatchAPI\config\app_config.json")
+    APP_CONFIG = os.environ.get('APP_CONFIG', r"/Users/nezeral/Desktop/CDT-Batch/AOAIBatchAPI/config/app_config.json")
     utils = Utils()
     try:
         app_config_data = utils.read_json_data(APP_CONFIG)

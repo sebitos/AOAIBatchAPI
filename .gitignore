@@ -4,3 +4,6 @@
 /notebooks
 /code/__pycache__
 /code/test.py
+/test
+/download/*
+/batch_files/*

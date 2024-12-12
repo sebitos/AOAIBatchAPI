@@ -3,6 +3,7 @@ import json
 from Utilities import Utils
 import asyncio
 import aiohttp
+import ssl
 class AzureBatch:
     def __init__(self, aoai_client, input_storage_handler, 
                  error_storage_handler, processed_storage_handler, batch_path,
@@ -85,15 +86,25 @@ class AzureBatch:
          # Process the file
         upload_response = await self.aoai_client.upload_batch_input_file_async(file,batch_storage_path, session)
         if not upload_response:
-            print(f"An error occurred while uploading file {file}. Please check the file and try again. Code: {upload_response.status_code}")
+            print(f"An error occurred while uploading file {file}. Please check the file and try again.")
             file_write_result = self.error_storage_handler.write_content_to_directory(batch_file_data,error_directory_name,file_wo_directory)
             cleanup_status = self.cleanup_batch(file_wo_directory,None, None, None)
             return None
         file_content_json = upload_response
+        if "error" in file_content_json:
+            print(f"An error occurred while uploading file {file}. Please check the file and try again. Error: {file_content_json['error']}")
+            file_write_result = self.error_storage_handler.write_content_to_directory(batch_file_data,error_directory_name,file_wo_directory)
+            cleanup_status = self.cleanup_batch(file_wo_directory,None, None, None)
+            return None
         file_id = file_content_json['id']
         print(f"file_id: {file_content_json['id']}")
         #TODO: Check if the file was uploaded successfully, if not, move to error folder and cleanup
-        await self.aoai_client.wait_for_file_upload(file_id)
+        file_status = await self.aoai_client.wait_for_file_upload(file_id)
+        if file_status.status == "error":
+            print(f"An error occurred while uploading file {file}. Please check the file and try again. Details:"+file_status.status_details)
+            file_write_result = self.error_storage_handler.write_content_to_directory(batch_file_data,error_directory_name,file_wo_directory)
+            cleanup_status = self.cleanup_batch(file_wo_directory,None, None, None)
+            return None
         try:
             initial_batch_response = self.aoai_client.create_batch_job(file_id)
         except Exception as e:
@@ -130,7 +141,7 @@ class AzureBatch:
             error_index = 1
             for error in errors:
                 error_file_content["Error "+str(error_index)] = error.message
-            error_file_content_string = error_file_content
+            error_file_content_string = json.dumps(error_file_content)
         if batch_data["output_file_id"] is not None:
             output_file_content = self.aoai_client.aoai_client.files.content(batch_data["output_file_id"])  
             output_file_content_string = str(output_file_content.text)
