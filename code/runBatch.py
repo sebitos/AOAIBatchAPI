@@ -16,8 +16,22 @@ def signal_handler(sig, frame):
 def run_external():
     main()
 def main():
-    signal.signal(signal.SIGINT, signal_handler)
-    APP_CONFIG = os.environ.get('APP_CONFIG', r"/Users/nezeral/Desktop/CDT-Batch/AOAIBatchAPI/config/app_config.json")
+    # signal.signal(signal.SIGINT, signal_handler)
+    # APP_CONFIG = os.environ.get('APP_CONFIG', r"/Users/nezeral/Desktop/CDT-Batch/AOAIBatchAPI/config/app_config.json")
+
+    # Get the directory of the script (current file's directory)
+    SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+    # Path to the config folder and app_config.json file
+    DEFAULT_CONFIG_PATH = os.path.join(SCRIPT_DIR, "..", "config", "app_config.json")
+
+    # Check if the config file exists at the resolved path
+    if not os.path.exists(DEFAULT_CONFIG_PATH):
+        raise FileNotFoundError(f"Config file not found at: {DEFAULT_CONFIG_PATH}")
+
+    # Get the APP_CONFIG environment variable or use the default path
+    APP_CONFIG = os.environ.get('APP_CONFIG', DEFAULT_CONFIG_PATH)
+    
     utils = Utils()
     try:
         app_config_data = utils.read_json_data(APP_CONFIG)

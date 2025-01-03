@@ -103,8 +103,9 @@ class AOAIHandler:
         while True:
             file_response = self.aoai_client.files.retrieve(file_id)
             status = file_response.status
+            status_details = file_response.status_details
             if status == "error":
-                print(f"{datetime.datetime.now()} Error occurred while processing file {file_id}")
+                print(f"{datetime.datetime.now()} Error occurred while processing file {file_id, status_details}")
                 break
             elif status == "processed":
                 print(f"{datetime.datetime.now()} File {file_id} processed successfully.")
