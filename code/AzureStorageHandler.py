@@ -33,7 +33,7 @@ class StorageHandler:
         result_file_content_status = self.write_json_to_storage(output_filename,file_content,error_directory_client)
         if result_file_content_status:
             write_result = True
-            print(f"File {output_filename} written to storage directory.")
+            print(f"File {output_filename} written to storage directory {directory_name}.")
         else:
             print(f"Error writing file {output_filename} to error directory.")
         return write_result

@@ -7,3 +7,5 @@
 /test
 /download/*
 /batch_files/*
+/.vscode
+/env

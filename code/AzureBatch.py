@@ -3,7 +3,7 @@ import json
 from Utilities import Utils
 import asyncio
 import aiohttp
-import ssl
+
 class AzureBatch:
     def __init__(self, aoai_client, input_storage_handler, 
                  error_storage_handler, processed_storage_handler, batch_path,
