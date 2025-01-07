@@ -180,12 +180,8 @@ def handle_file_download(storage_config_data):
         output_csv = Utils.parse_batch_output_file(batch_response_data_string, "|")
         st.write("Generated CSV file successfully!")
 
-        # Save the CSV to the Downloads folder
-        local_output_path = downloads_folder / output_csv_filename
-        with open(local_output_path, "w", encoding="utf-8") as output_file:
-            output_file.write(output_csv)
-        
-        st.write(f"File saved to local storage successfully at: {local_output_path}")
+        st.download_button(label="Download CSV", data=output_csv, file_name=output_csv_filename, mime="text/csv")
+
 
 
 def handle_file_upload(storage_config_data):
