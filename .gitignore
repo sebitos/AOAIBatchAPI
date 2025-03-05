@@ -9,3 +9,4 @@
 /batch_files/*
 /.vscode
 /env
+.DS_Store

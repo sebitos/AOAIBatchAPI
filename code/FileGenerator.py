@@ -45,11 +45,12 @@ class FileGenerator:
                 batch_row["body"]["messages"][self.system_index]["content"] = "You are a financial analyst, adept at going through complex financial reports and filings to summarize data."\
                         "You are familiar with different forms of compensation including stock, retainers, fees, payments, bonuses, and salaries."\
                         "You have worked with "+first_last_name["full"]+" before and know they may be referred to as "+first_last_name["first"]+" or "+first_last_name["last"]+" in proxy statements."\
-                        "You are aware that "+first_last_name["full"]+" is a key executive at "+symbol+" and you need to find out more about their compensation, stock ownership, and experience."\
+                        "You are aware that "+first_last_name["full"]+" is a key executive or director at "+symbol+" and you need to find out more about their compensation, stock ownership, and experience."\
                         "Respond in JSON using the provided schema."
                 
                 batch_row["body"]["messages"][self.user_index]["role"] = "user"
                 batch_row["body"]["messages"][self.user_index]["content"] = "Fill in the provided schema with the information you find in the Proxy Statement. Follow any instructions provided in <brackets> and respond in JSON."\
+                "\nOnly focus on information in the Proxy Statement related to "+symbol+". You can ignore information related to other places they've worked. For directors, be careful to look for any retainers mentioned."\
                 "\nProxy Statement:"+content+"\n"\
                 "\nSchema"+question_schema_string+"\n"
                 
@@ -67,13 +68,13 @@ class FileGenerator:
         return first_last_name
     def generate_question_schema(self,insider):
         schema = {}
-        ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+"? If requirements are not mentioned for "+insider+", list any general requirements mentioned.>"
-        compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned.>"
-        accounting_experience = "<How many years of Accounting Experience does "+insider+" have? If not explictly mentioned, say so.>"
-        investing_experience = "<How many years of Investing Experience does "+insider+" have? If not explicly mentioned, say so.>"
-        industry_experience = "<How many years of Industry Experience does "+insider+" have? If not explicitly mentioned, estimate it based on their tenure at the current company.>"
+        ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+"? If requirements are not mentioned for "+insider+", list any general requirements mentioned. Only include information about the current company and include a rationalle for the amount of stock they're required to own.>"
+        compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned including retainers. Only include compensation related to the current company.>"
+        accounting_experience = "<How many years of Accounting Experience does "+insider+" have at the current company? If not explictly mentioned, say so.>"
+        investing_experience = "<How many years of Investing Experience does "+insider+" have at the current company? If not explicly mentioned, say so.>"
+        industry_experience = "<How many years of Industry Experience does "+insider+" have at the current company? If not explicitly mentioned, estimate it based on their tenure at the current company.>"
         tenure = "<How long was "+insider+" at the current company?>"
-        title = "<What is "+insider+"'s title at their current company?>"
+        title = "<What is "+insider+"'s title at the current company?>"
         schema["ownership_requirement"] = ownership_requirement
         schema["compensation"] = compensation
         schema["accounting_experience"] = accounting_experience
