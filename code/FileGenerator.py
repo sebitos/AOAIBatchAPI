@@ -69,7 +69,7 @@ class FileGenerator:
     def generate_question_schema(self,insider):
         schema = {}
         ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+"? If requirements are not mentioned for "+insider+", list any general requirements mentioned. Only include information about the current company and include a rationalle for the amount of stock they're required to own.>"
-        compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned including retainers. Only include compensation related to the current company.>"
+        compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned including retainers. Only include compensation related to the current company and give a detailed breakdown of any calculations involved.>"
         accounting_experience = "<How many years of Accounting Experience does "+insider+" have at the current company? If not explictly mentioned, say so.>"
         investing_experience = "<How many years of Investing Experience does "+insider+" have at the current company? If not explicly mentioned, say so.>"
         industry_experience = "<How many years of Industry Experience does "+insider+" have at the current company? If not explicitly mentioned, estimate it based on their tenure at the current company.>"
