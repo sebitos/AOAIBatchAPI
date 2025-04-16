@@ -215,7 +215,7 @@ def handle_file_upload(storage_config_data):
                 file.write(string_data)
             
             # Initialize the FileGenerator
-            fg = FileGenerator("CSV", str(batch_template_file), "gpt-4o-batch")
+            fg = FileGenerator("CSV", str(batch_template_file), "o3-mini")
             csv = fg.read_and_parse_CSV(str(filename_with_path), header, ",")
             batch_file = fg.generate_batch_file(csv)
             

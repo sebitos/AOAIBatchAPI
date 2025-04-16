@@ -17,7 +17,7 @@ def run_external():
     main()
 def main():
     # signal.signal(signal.SIGINT, signal_handler)
-    # APP_CONFIG = os.environ.get('APP_CONFIG', r"/Users/nezeral/Desktop/CDT-Batch/AOAIBatchAPI/config/app_config.json")
+    APP_CONFIG = os.environ.get('APP_CONFIG', r"/Users/nezeral/Desktop/CDT-Batch/AOAIBatchAPI/config/app_config.json")
 
     # Get the directory of the script (current file's directory)
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))

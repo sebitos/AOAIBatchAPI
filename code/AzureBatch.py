@@ -136,12 +136,16 @@ class AzureBatch:
             error_file_content = self.aoai_client.aoai_client.files.content(batch_data["error_file_id"])
             error_file_content_string = str(error_file_content.text)
         else:
-            errors = batch_data["finished_batch_response"].errors.data
-            error_file_content = {}
-            error_index = 1
-            for error in errors:
-                error_file_content["Error "+str(error_index)] = error.message
-            error_file_content_string = json.dumps(error_file_content)
+            if batch_data["finished_batch_response"].errors is not None:
+                errors = batch_data["finished_batch_response"].errors.data
+                error_file_content = {}
+                error_index = 1
+                for error in errors:
+                    error_file_content["Error "+str(error_index)] = error.message
+                error_file_content_string = json.dumps(error_file_content)
+            else:
+                error_file_content = ""
+                error_file_content_string = ""
         if batch_data["output_file_id"] is not None:
             output_file_content = self.aoai_client.aoai_client.files.content(batch_data["output_file_id"])  
             output_file_content_string = str(output_file_content.text)

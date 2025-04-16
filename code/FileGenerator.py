@@ -70,11 +70,12 @@ class FileGenerator:
         schema = {}
         ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+"? If requirements are not mentioned for "+insider+", list any general requirements mentioned. Only include information about the current company and include a rationalle for the amount of stock they're required to own.>"
         compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned including retainers. Only include compensation related to the current company and give a detailed breakdown of any calculations involved.>"
-        accounting_experience = "<How many years of Accounting Experience does "+insider+" have at the current company? If not explictly mentioned, say so.>"
-        investing_experience = "<How many years of Investing Experience does "+insider+" have at the current company? If not explicly mentioned, say so.>"
-        industry_experience = "<How many years of Industry Experience does "+insider+" have at the current company? If not explicitly mentioned, estimate it based on their tenure at the current company.>"
+        accounting_experience = "<How many years of financial and/or accounting experience does "+insider+" have? Remember that that can including roles such as chief financial officer, chief accounting officer, or treasurer. If not explictly mentioned, say so.>"
+        investing_experience = "<How many years of investing experience does "+insider+" have? Be sure to include experience from roles involving public wealth management or private equity funds. If not explicly mentioned, say so.>"
+        industry_experience = "<How many years of industry experience does "+insider+" have in the industry the current company operates in? If not explicitly mentioned, estimate it based on their tenure at the current company.>"
         tenure = "<How long was "+insider+" at the current company?>"
         title = "<What is "+insider+"'s title at the current company?>"
+        total = "<Based on the information found Stock Ownership/Information table, what is the total amount of shares of stock onwed by all executives and directors at the current company?>"
         schema["ownership_requirement"] = ownership_requirement
         schema["compensation"] = compensation
         schema["accounting_experience"] = accounting_experience
@@ -82,6 +83,7 @@ class FileGenerator:
         schema["industry_experience"] = industry_experience
         schema["tenure"] = tenure
         schema["title"] = title
+        schema["total"] = total
         return schema
     def parse_CSV(self,data, header, delim):
         csv_parsed = []
