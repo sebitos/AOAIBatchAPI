@@ -50,7 +50,8 @@ class FileGenerator:
                 
                 batch_row["body"]["messages"][self.user_index]["role"] = "user"
                 batch_row["body"]["messages"][self.user_index]["content"] = "Fill in the provided schema with the information you find in the Proxy Statement. Follow any instructions provided in <brackets> and respond in JSON."\
-                "\nOnly focus on information in the Proxy Statement related to "+symbol+". You can ignore information related to other places they've worked. For directors, be careful to look for any retainers mentioned."\
+                "\nFocus on information in the Proxy Statement related to "+symbol+". Only use information related to other places they've worked when determining the experience they have. For directors, be careful to look for any retainers mentioned."\
+                "Make sure to determine the title of "+insider+" first and then use that title to answer the other questions in the schema.\n"\
                 "\nProxy Statement:"+content+"\n"\
                 "\nSchema"+question_schema_string+"\n"
                 
@@ -68,7 +69,7 @@ class FileGenerator:
         return first_last_name
     def generate_question_schema(self,insider):
         schema = {}
-        ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+"? If requirements are not mentioned for "+insider+", list any general requirements mentioned. Only include information about the current company and include a rationalle for the amount of stock they're required to own.>"
+        ownership_requirement = "<What is the Stock Ownership Requirement for "+insider+" based on their title? If requirements are not mentioned for "+insider+", list any general requirements mentioned. Only include information about the current company and include a rationalle for the amount of stock they're required to own.>"
         compensation = "<What compensation has "+insider+" received? List all components of compensation mentioned including retainers. Only include compensation related to the current company and give a detailed breakdown of any calculations involved.>"
         accounting_experience = "<How many years of financial and/or accounting experience does "+insider+" have? Remember that that can including roles such as chief financial officer, chief accounting officer, or treasurer. If not explictly mentioned, say so.>"
         investing_experience = "<How many years of investing experience does "+insider+" have? Be sure to include experience from roles involving public wealth management or private equity funds. If not explicly mentioned, say so.>"
